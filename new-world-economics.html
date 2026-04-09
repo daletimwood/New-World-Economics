@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>New World Economics by Tim Wood</title>
+  <meta name="description" content="Tracking the shift from transactional to value-based commercial models in enterprise technology." />
+
+  <!-- Google Fonts: Playfair Display (headings) + Inter (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================================
+       RESET & BASE
+    ============================================================ */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --color-bg:         #ffffff;
+      --color-text:       #1a1a1a;
+      --color-text-muted: #5a5a5a;
+      --color-accent:     #2c4a6e;
+      --color-accent-lt:  #e8edf3;
+      --color-border:     #e0e0e0;
+      --color-rule:       #c8d4e0;
+
+      --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+      --font-sans:  'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+      --max-width: 740px;
+      --side-pad:  clamp(1.25rem, 5vw, 3rem);
+    }
+
+    html {
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      font-family: var(--font-sans);
+      font-weight: 400;
+      line-height: 1.7;
+    }
+
+    /* ============================================================
+       LAYOUT WRAPPER
+    ============================================================ */
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 var(--side-pad);
+    }
+
+    /* ============================================================
+       MASTHEAD
+    ============================================================ */
+    .masthead {
+      border-bottom: 2px solid var(--color-accent);
+      padding: 3.5rem 0 2.25rem;
+    }
+
+    .masthead__eyebrow {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: 0.75rem;
+    }
+
+    .masthead__title {
+      font-family: var(--font-serif);
+      font-size: clamp(2.2rem, 6vw, 3.4rem);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--color-text);
+      letter-spacing: -0.01em;
+      margin-bottom: 0.9rem;
+    }
+
+    .masthead__descriptor {
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--color-text-muted);
+      max-width: 560px;
+      line-height: 1.55;
+      font-style: italic;
+    }
+
+    /* ============================================================
+       SECTION NAVIGATION
+       A quiet jump-to list sitting just below the masthead.
+    ============================================================ */
+    .section-nav {
+      padding: 1.4rem 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .section-nav__list {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem 0;
+    }
+
+    .section-nav__item {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+    }
+
+    .section-nav__item + .section-nav__item::before {
+      content: "·";
+      color: var(--color-rule);
+      font-size: 1rem;
+      margin-right: 0.2rem;
+    }
+
+    .section-nav__num {
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      color: var(--color-accent);
+    }
+
+    .section-nav__link {
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: var(--color-text-muted);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .section-nav__link:hover {
+      color: var(--color-accent);
+      border-bottom-color: var(--color-rule);
+    }
+
+    /* ============================================================
+       ABOUT
+    ============================================================ */
+    .about {
+      padding: 2.5rem 0 2rem;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .label {
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .about__text {
+      font-size: 0.95rem;
+      color: var(--color-text-muted);
+      max-width: 620px;
+      line-height: 1.75;
+    }
+
+    .about__text p + p {
+      margin-top: 0.75em;
+    }
+
+    /* ============================================================
+       THEMATIC SECTIONS
+    ============================================================ */
+    .section {
+      padding: 3.25rem 0 0;
+      margin-bottom: 3.75rem;
+      border-top: 2px solid var(--color-accent);
+    }
+
+    .section__header {
+      margin-bottom: 2rem;
+    }
+
+    .section__num {
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      display: block;
+      margin-bottom: 0.65rem;
+    }
+
+    .section__title {
+      font-family: var(--font-serif);
+      font-size: clamp(1.45rem, 3.5vw, 1.9rem);
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--color-text);
+      letter-spacing: -0.01em;
+      margin-bottom: 1.1rem;
+    }
+
+    /* Thesis sentence: the opening statement of each section.
+       Slightly larger, medium weight. Sets the argument. */
+    .section__thesis {
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--color-text);
+      line-height: 1.65;
+      max-width: 640px;
+      padding-bottom: 1.4rem;
+      border-bottom: 1px solid var(--color-border);
+      margin-bottom: 1.75rem;
+    }
+
+    /* Body prose */
+    .section__body {
+      font-size: 0.95rem;
+      color: var(--color-text);
+      line-height: 1.8;
+      max-width: 660px;
+    }
+
+    .section__body p + p {
+      margin-top: 1.2em;
+    }
+
+    /* Inline citation superscripts */
+    .section__body sup {
+      font-size: 0.6rem;
+      font-weight: 600;
+      vertical-align: super;
+      line-height: 0;
+      margin-left: 0.1em;
+    }
+
+    .section__body sup a {
+      color: var(--color-accent);
+      text-decoration: none;
+    }
+
+    .section__body sup a:hover {
+      text-decoration: underline;
+    }
+
+    /* ============================================================
+       CALLOUT BLOCK
+       For specific data points, practitioner quotes, or
+       observations too significant to leave in the body.
+    ============================================================ */
+    .callout {
+      margin: 1.75rem 0;
+      padding: 1.1rem 1.35rem;
+      background-color: var(--color-accent-lt);
+      border-left: 3px solid var(--color-accent);
+      border-radius: 0 4px 4px 0;
+    }
+
+    .callout__label {
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: 0.45rem;
+      display: block;
+    }
+
+    .callout__text {
+      font-size: 0.9rem;
+      color: var(--color-text);
+      line-height: 1.65;
+    }
+
+    .callout__source {
+      font-size: 0.75rem;
+      color: var(--color-text-muted);
+      font-style: italic;
+      margin-top: 0.4rem;
+      display: block;
+    }
+
+    /* ============================================================
+       CITATIONS
+    ============================================================ */
+    .citations {
+      border-top: 1px solid var(--color-border);
+      padding: 2.5rem 0 2rem;
+    }
+
+    .citations__list {
+      list-style: none;
+      counter-reset: citation-counter;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      margin-top: 0.25rem;
+    }
+
+    .citations__item {
+      counter-increment: citation-counter;
+      display: grid;
+      grid-template-columns: 1.4rem 1fr;
+      gap: 0 0.5rem;
+      font-size: 0.8rem;
+      color: var(--color-text-muted);
+      line-height: 1.55;
+    }
+
+    .citations__item::before {
+      content: counter(citation-counter) ".";
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--color-accent);
+      padding-top: 0.08em;
+    }
+
+    .citations__item a {
+      color: var(--color-accent);
+      text-decoration: none;
+      border-bottom: 1px solid var(--color-rule);
+      transition: border-color 0.15s;
+    }
+
+    .citations__item a:hover {
+      border-bottom-color: var(--color-accent);
+    }
+
+    .citations__note {
+      font-style: italic;
+      color: var(--color-text-muted);
+    }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    .footer {
+      border-top: 1px solid var(--color-border);
+      padding: 1.75rem 0 3rem;
+    }
+
+    .footer__inner {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .footer__text {
+      font-size: 0.76rem;
+      color: var(--color-text-muted);
+      letter-spacing: 0.02em;
+    }
+
+    .footer__updated {
+      font-size: 0.76rem;
+      color: var(--color-text-muted);
+      font-style: italic;
+    }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 600px) {
+      .masthead {
+        padding: 2.25rem 0 1.75rem;
+      }
+
+      .section-nav__list {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .section-nav__item + .section-nav__item::before {
+        display: none;
+      }
+
+      .footer__inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    /* ============================================================
+       PRINT
+    ============================================================ */
+    @media print {
+      body { font-size: 11pt; }
+      .section-nav { display: none; }
+      .masthead { border-bottom-width: 1pt; }
+      .section { border-top-width: 1pt; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ============================================================
+       MASTHEAD
+  ============================================================ -->
+  <header class="masthead">
+    <div class="container">
+      <p class="masthead__eyebrow">Research Publication</p>
+      <h1 class="masthead__title">New World Economics</h1>
+      <p class="masthead__descriptor">Tracking the shift from transactional to value-based commercial models in enterprise technology</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+
+      <!-- ==========================================================
+           SECTION NAVIGATION
+      =========================================================== -->
+      <nav class="section-nav" aria-label="Jump to section">
+        <ul class="section-nav__list">
+          <li class="section-nav__item">
+            <span class="section-nav__num">01</span>
+            <a class="section-nav__link" href="#history">A Short History of Monetisation</a>
+          </li>
+          <li class="section-nav__item">
+            <span class="section-nav__num">02</span>
+            <a class="section-nav__link" href="#present">The Shift, Observed</a>
+          </li>
+          <li class="section-nav__item">
+            <span class="section-nav__num">03</span>
+            <a class="section-nav__link" href="#future">The View from Three Years Out</a>
+          </li>
+          <li class="section-nav__item">
+            <span class="section-nav__num">04</span>
+            <a class="section-nav__link" href="#against">The Case Against</a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- ==========================================================
+           ABOUT
+      =========================================================== -->
+      <section class="about" aria-labelledby="about-label">
+        <span class="label" id="about-label">About</span>
+        <div class="about__text">
+          <p>New World Economics is a living research document tracking the structural shift from transactional to value-based commercial models in enterprise technology. It exists in this form for a reason.</p>
+          <p>The question at the centre of this work — how value is created, captured, and shared in enterprise technology — does not yield to a single analytical pass. The argument develops gradually, through a process closer to gestation than to modelling: material accumulates, patterns surface, and the sections are rewritten as understanding changes.</p>
+          <p>The method is borrowed, knowingly, from artists rather than analysts. Rilke, advising a young poet, wrote: <em>'Live the questions for now. Perhaps then, gradually, without noticing it, you will live your way into the answer.'</em> (<em>Letters to a Young Poet</em>, Letter Four, 1903.) This publication proceeds on that premise. Its commercial equivalent is the distinction between leading and lagging signal. Conventional market intelligence is backward-looking by design: surveys, data, and analyst reports describe what has already become legible. This work attends to what is visible earlier — in the frustrations of practitioners at the edge, in experiments not yet named as trends. The aim is structured proximity to the frontier: to be present where the next thing is being invented before anyone has named it.</p>
+          <p>The work is principle-based and non-company-specific. Sources and references are collected at the foot of the page.</p>
+        </div>
+      </section>
+
+      <!-- ==========================================================
+           SECTION 01: A SHORT HISTORY OF MONETISATION
+           Update as new historical context or analogies emerge.
+           The arc is relatively stable; the emphasis and
+           evidence will deepen over time.
+      =========================================================== -->
+      <section class="section" id="history" aria-labelledby="history-title">
+        <div class="section__header">
+          <span class="section__num">01</span>
+          <h2 class="section__title" id="history-title">A Short History of Monetisation</h2>
+          <p class="section__thesis">Enterprise software has always been sold as a proxy for the value it creates, but the relationship between price and value has been tightening for thirty years, and the gap is now almost closed.</p>
+        </div>
+
+        <div class="section__body">
+
+          <p>The earliest commercial software was sold as a capital asset. In the perpetual licence era, the transaction was simple and the logic was borrowed from manufacturing: a buyer paid once for a product, owned it, and the vendor moved on. Price was anchored to the cost of production and the vendor's required margin, with value assumed rather than measured. If the software worked, the buyer was satisfied. What it was worth to them was not a question the contract asked.</p>
+
+          <p>Maintenance and support contracts arrived not as a concession to customers but as a mechanism for vendors to build recurring revenue on top of one-time sales. The annual maintenance fee, typically priced at fifteen to twenty-five percent of the original licence, was presented as insurance against the future: access to patches, upgrades, and support. In practice, it was the industry's first systematic attempt to capture ongoing value. Whether the customer extracted that value was, again, not a question the commercial model was designed to answer.<sup><a href="#ref-1">[1]</a></sup></p>
+
+          <p>The SaaS model changed the terms of the relationship in ways that were not fully understood at the time. Subscription pricing made the ongoing nature of the commercial relationship explicit, and renewal became a forcing function. A customer who felt they were not receiving value could, in theory, simply not renew, and this possibility restructured the incentives on both sides of the table. The unit of pricing, however, remained disconnected from outcome: seats, users, and named accounts are measures of access, not of value delivered.</p>
+
+          <p>Usage-based pricing was the next step toward alignment. Consumption models that charged by the API call, the transaction, or the compute unit connected price to utilisation, at least. A customer who used the product heavily paid more. A customer who did not, paid less. The model was more honest than its predecessors. But utilisation is not value, and the gap between the two is where most of the commercial tension in enterprise software now lives.</p>
+
+          <div class="callout">
+            <span class="callout__label">Where this leads</span>
+            <p class="callout__text">The logical endpoint of this thirty-year compression is a commercial model in which price is set by reference to the outcome the customer achieves, not the product the vendor delivers. That model exists today in isolated pockets of the enterprise software market. The question this publication is tracking is whether it will become the norm, and how quickly.</p>
+          </div>
+
+          <p>Each transition in this history has followed a similar pattern: a new pricing model emerges that more accurately reflects the value exchange, adoption is initially slow because it requires new measurement capabilities and a tolerance for commercial risk on both sides, and then it becomes standard faster than incumbents expect. The distance between SaaS as a curiosity and SaaS as the default was roughly a decade. There is no particular reason to think the next transition will take longer.</p>
+
+        </div>
+      </section>
+
+      <!-- ==========================================================
+           SECTION 02: THE SHIFT, OBSERVED
+           The live evidence section. Update as strong material
+           arrives. Write in the present tense, as evidence for
+           an argument, not as a news summary.
+      =========================================================== -->
+      <section class="section" id="present" aria-labelledby="present-title">
+        <div class="section__header">
+          <span class="section__num">02</span>
+          <h2 class="section__title" id="present-title">The Shift, Observed</h2>
+          <p class="section__thesis">The clearest evidence that commercial models are changing is not in the pricing pages of software vendors. It is in the budget decisions of their customers.</p>
+        </div>
+
+        <div class="section__body">
+
+          <p>Enterprise buyers are arriving at renewal and expansion conversations with substantially more structured value data than they carried five years ago. FinOps functions, third-party benchmarking services, and internal spend analytics platforms have professionalised the buying process in ways that have materially narrowed the information asymmetry that protected vendor pricing for much of the SaaS era. A seller who cannot articulate delivered economic value in the customer's own terms is finding that discounting is increasingly the path of least resistance, which is a different kind of commercial problem from the one most sales organisations were built to solve.<sup><a href="#ref-2">[2]</a></sup></p>
+
+          <p>The automation layer of enterprise software stacks is under particular pressure. Buyers are discovering that purpose-built AI agents can replicate the process automation tools sold as add-ons to core platforms, at a fraction of the cost and in a fraction of the time previously required. The implication is not the wholesale replacement of core systems, which carry compliance, integration, and auditability value that point solutions cannot easily replicate. It is the erosion of the module and add-on revenue that made those platforms profitable at scale. Vendors whose margins depend on the automation layer face a more immediate threat than those whose core value lies in data, workflow, or identity.</p>
+
+          <div class="callout">
+            <span class="callout__label">Signal from the market</span>
+            <p class="callout__text">A CIO at a data security firm generating over two billion dollars in annual revenue reports that early tests suggest he can cut spending on enterprise software automation tools in half by replacing them with AI agents built in-house. He is keeping the core platforms. He is not renewing the automation add-ons. The incumbents' response, that AI-built alternatives lack the compliance and auditability that regulated enterprises require, is a value argument, not a price one. It may be correct. But it is a harder argument to make at renewal than it was two years ago.</p>
+            <span class="callout__source">Source: practitioner account, March 2026</span>
+          </div>
+
+          <p>Adoption data from the lower end of the enterprise market is showing a pattern that has preceded disruption in adjacent software categories. AI-native challengers with purpose-built commercial models, including outcome-adjacent pricing structures and significantly lower total cost of entry, are taking measurable market share from incumbents among companies below one hundred million dollars in revenue. This is the cohort with the lowest switching costs and the least institutional inertia in procurement. It is typically where new commercial models prove themselves before moving upmarket.<sup><a href="#ref-3">[3]</a></sup></p>
+
+          <p>A new commercial distribution architecture may also be taking shape at the high end. Early signals suggest that foundation model providers are in preliminary discussions with private equity firms about joint ventures that would distribute enterprise AI capability through PE portfolio companies, bypassing traditional direct sales and procurement cycles entirely. If this model establishes itself, it represents a structural change in how enterprise software reaches its buyers, with significant implications for pricing, packaging, and the vendor-customer relationship.</p>
+
+        </div>
+      </section>
+
+      <!-- ==========================================================
+           SECTION 03: THE VIEW FROM THREE YEARS OUT
+           Disciplined speculation. Update as weak signals
+           strengthen or new patterns emerge. Confident,
+           not hedged.
+      =========================================================== -->
+      <section class="section" id="future" aria-labelledby="future-title">
+        <div class="section__header">
+          <span class="section__num">03</span>
+          <h2 class="section__title" id="future-title">The View from Three Years Out</h2>
+          <p class="section__thesis">The future of enterprise value is not waiting to be modelled. It is waiting to be perceived. The enterprises that will define commercial norms in three years are already running experiments the rest of the market regards as too complex to scale. They are not too complex. They are too unfamiliar.</p>
+        </div>
+
+        <div class="section__body">
+
+          <p>Outcome-based pricing, currently confined to large strategic accounts with high data maturity on both sides, will become a standard option in enterprise software negotiations within three years. Shared data environments and agreed measurement frameworks are maturing faster than the commercial frameworks for using them. The constraint is not technical. It is the absence of commercial practitioners who know how to structure, negotiate, and manage outcome-linked contracts at scale.</p>
+
+          <p>The unbundling of enterprise platforms will continue, but not uniformly. Vendors with strong claims on identity, workflow, and compliance infrastructure will hold their core positions. The economics of replacing a system of record that sits at the centre of a company's operational data flows are prohibitive for most buyers regardless of the available alternatives. What will not hold is the pricing power that platform vendors have historically extracted from the layers built on top of those cores: the automation tools, the analytics modules, the integration middleware. Those are the positions that AI-native alternatives are targeting, and they will succeed in the accounts where the compliance argument is weakest.</p>
+
+          <div class="callout">
+            <span class="callout__label">The emerging discipline</span>
+            <p class="callout__text">Value engineering, currently a support function within enterprise software sales organisations, is on a trajectory toward becoming a core commercial discipline with its own data systems, methodologies, and board visibility. Companies that invest in this capability before their competitors will price more effectively, retain customers more reliably, and expand revenue with less friction. The gap between those who do and those who do not will be visible in net revenue retention figures within two to three years.</p>
+          </div>
+
+          <p>The enterprises that will define commercial norms in three years are already visible — not in the data analysts are collecting, but in the places analysts are not yet looking: research environments, early developer communities, and the work of practitioners doing the hardest version of a problem. Academic research in relevant fields leads commercial application by five to ten years. The firms that position themselves with structured proximity to where the next model is being built will have a map of where the market is going before the market knows it is moving. The others will discover the shift when it appears in renewal data. This is the difference between ethnographic futures research and market intelligence: one reads leading signal, the other confirms what has already happened.</p>
+
+          <p>The role of the buyer will also change in ways that most sellers have not yet modelled. As AI-assisted procurement becomes standard, buyers will arrive at commercial conversations with more precise value benchmarks, better alternatives analysis, and a clearer view of their own usage patterns than most vendors currently have. The information advantage that has historically sat with the seller, knowing what the product is worth to a customer better than the customer does, is narrowing. Vendors who have built their commercial motion around that advantage have less time to adapt than they may assume.</p>
+
+          <div class="callout">
+            <span class="callout__label">The provocation</span>
+            <p class="callout__text">The professional instinct in commercial strategy is to resolve, clarify, model, present. To have an answer. The artists and poets who have consistently perceived what analysts missed did something different: they waited. They held unresolved questions without the anxiety to close them, and in that waiting, something became visible that urgency forecloses. The question this section is sitting with is not what will the future of enterprise value look like. It is: what would it mean to gestate a pricing model rather than build one? To live inside the question of value long enough that the answer surfaces, rather than constructing it from the observables currently available?</p>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ==========================================================
+           SECTION 04: THE CASE AGAINST
+           The steelman. Update as the incumbent response
+           develops or new evidence complicates the thesis.
+           This section makes the overall argument more
+           credible, not less.
+      =========================================================== -->
+      <section class="section" id="against" aria-labelledby="against-title">
+        <div class="section__header">
+          <span class="section__num">04</span>
+          <h2 class="section__title" id="against-title">The Case Against</h2>
+          <p class="section__thesis">The transition narrative underestimates three things that incumbents understand and their challengers mostly do not: the structural cost of compliance, the depth of integration value, and the institutional logic of large enterprise procurement.</p>
+        </div>
+
+        <div class="section__body">
+
+          <p>Compliance and auditability are not features sitting alongside the product. For regulated industries, they are the product. The ability to demonstrate to an external auditor, a regulator, or a board exactly how a business process was executed, who authorised each step, and what the system state was at any point in time is worth more to certain buyers than any efficiency gain an alternative might offer. AI-built replacements, however capable in narrow functional terms, do not yet carry this assurance at the level that enterprise procurement in regulated industries requires. The incumbents know this, and their defence of core positions in those sectors is more durable than the transition narrative tends to acknowledge.<sup><a href="#ref-4">[4]</a></sup></p>
+
+          <p>Switching costs in mature enterprise software relationships are structural rather than psychological. The integration surface area of a mature platform represents an investment that is difficult to replicate and costly to abandon: the data flows it manages, the API dependencies built on top of it, the trained user base, and the customisations and configurations accumulated over years. The financial case for replacing a well-embedded system has to be overwhelming before a procurement function will recommend it, and the bar rises with the size and complexity of the organisation.</p>
+
+          <p>The buying process in large enterprises is designed around a goal that is not value optimisation. It is risk elimination. The vendor that wins a large account is often not the one with the best product or the most favourable commercial model. It is the one that presents the smallest institutional risk to the person signing the contract. Until the risk profile of newer commercial models and newer vendors is well-established across multiple comparable deployments, the incumbents' position in large enterprise is protected by something more durable than product quality or pricing. It is protected by the structure of the buying decision itself.</p>
+
+          <div class="callout">
+            <span class="callout__label">What this means for the thesis</span>
+            <p class="callout__text">The transition to value-based commercial models will not be uniform across the market. It will be fastest in the segments with the lowest compliance burden, the shortest deployment history, and the most sophisticated buyers. It will be slowest in exactly the accounts that matter most to the incumbents' revenue base. Both things can be true simultaneously: the model is changing, and the incumbents have more time than the disruption narrative implies.</p>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ==========================================================
+           CITATIONS
+           Numbers correspond to superscripts in the body text.
+           Add references here as the argument develops.
+      =========================================================== -->
+      <section class="citations" aria-labelledby="citations-label">
+        <span class="label" id="citations-label">Sources and References</span>
+        <ol class="citations__list">
+          <li class="citations__item" id="ref-1">
+            <span>Cusumano, M.A., Kahl, S.J. and Suarez, F.F. (2015). Services, Industry Evolution, and the Competitive Strategies of Product Firms. <em>Strategic Management Journal,</em> 36(4), 559-575. <a href="https://sms.onlinelibrary.wiley.com/doi/abs/10.1002/smj.2235" target="_blank" rel="noopener">doi:10.1002/smj.2235</a> <span class="citations__note">On the structural shift from product to service revenue in the software industry and its strategic implications.</span></span>
+          </li>
+          <li class="citations__item" id="ref-2">
+            <span>Nagle, T.T. and Müller, G. (2018). <em>The Strategy and Tactics of Pricing.</em> Routledge, 6th edition. <span class="citations__note">The foundational text on value-based pricing methodology, willingness-to-pay measurement, and the alignment of price with customer value.</span></span>
+          </li>
+          <li class="citations__item" id="ref-3">
+            <span>Mostlymetrics (2026). Finance and Accounting Tools: Adoption by Company Revenue Size. Annual benchmarking survey, 1,364 respondents. <span class="citations__note">Adoption data showing AI-native challengers taking market share at the sub-$100M revenue tier over a two-year period.</span></span>
+          </li>
+          <li class="citations__item" id="ref-4">
+            <span>Anderson, J.C., Narus, J.A. and Van Rossum, W. (2006). Customer Value Propositions in Business Markets. <em>Harvard Business Review,</em> March 2006. <a href="https://hbr.org/2006/03/customer-value-propositions-in-business-markets" target="_blank" rel="noopener">hbr.org</a> <span class="citations__note">Foundational framework for how B2B vendors construct and communicate value propositions to enterprise buyers.</span></span>
+          </li>
+        </ol>
+      </section>
+
+    </div><!-- /container -->
+  </main>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__inner">
+        <span class="footer__text">Research compiled by Tim Wood. Updated as the argument develops.</span>
+        <span class="footer__updated">Last updated: March 2026</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
